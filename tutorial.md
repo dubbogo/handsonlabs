@@ -10,7 +10,7 @@
 ## 准备工作
 本节，你将通过 git 命令下载程序代码，并启动 Nacos 服务端
 
-### 获取客户端程序代码
+### 获取客户端及服务端程序代码
 请使用下面的命令获取客户端及服务端程序代码
 ```bash
 git clone https://code.aliyun.com/handsonlabs/dubbo-go.git -b helloworld
