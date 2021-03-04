@@ -13,7 +13,7 @@
 ### 获取客户端程序代码
 请使用下面的命令获取客户端及服务端程序代码
 ```bash
-git clone github.com/dubbogo/handsonlabs -b helloworld-sourcecode
+git clone https://github.com/dubbogo/handsonlabs.git -b helloworld-sourcecode
 ```
 
 ### 启动 Nacos 服务端
