@@ -2,40 +2,27 @@
 
 ## 教程说明
 通过该教程，你将会：
-* 使用 Dubbogo 框架开启简单RPC调用
+* 使用 dubbo-go 框架开启简单RPC服务
 * 并完成客户端和服务端之间的调用示例。
 
-案例学习时间预计15分钟左右。
+案例学习时间预计5分钟左右。
 
 ## 准备工作
 本节，你将通过 git 命令下载程序代码，并启动 Nacos 服务端
 
 ### 获取客户端程序代码
-请使用下面的命令获取客户端程序代码
+请使用下面的命令获取客户端及服务端程序代码
 ```bash
-cloudshell-git-open "https://start.aliyun.com/type=maven-project&language=java&architecture=none&bootVersion=2.3.4.RELEASE&baseDir=client&groupId=com.example&artifactId=client&name=client&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.client&packaging=jar&javaVersion=1.8&dependencies=sca-nacos-discovery,web,cloud-feign&demos=nacosdiscoveryconsumer/client.git" /home/shell/client
-```
-
-### 获取服务端程序工程
-请使用下面的命令获取服务端程序代码
-```bash
-cloudshell-git-open "https://start.aliyun.com/type=maven-project&language=java&architecture=none&bootVersion=2.3.4.RELEASE&baseDir=server&groupId=com.example&artifactId=server&name=server&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.server&packaging=jar&javaVersion=1.8&dependencies=sca-nacos-discovery,web&demos=nacosdiscoveryprovider/server.git" /home/shell/server
+git clone github.com/dubbogo/handsonlabs -b helloworld-sourcecode
 ```
 
 ### 启动 Nacos 服务端
-通过如下命令启动服务端
+通过如下命令启动nacos服务端
 ```bash
 sh ~/prepare.sh
 ```
 
 ----
-
-完成以上操作后，你将会获得链各个工程的代码，如下：<br>
-```
-ls -l /home/shell/
-drwxr-xr-x 5 shell shell 4096 Dec 15 14:26 client
-drwxr-xr-x 5 shell shell 4096 Dec 15 14:26 server
-```
 
 通过如下命令观察nacos启动日志:
 ```bash
@@ -56,38 +43,27 @@ cat /home/shell/nacos/logs/start.out
 
 ### 修改服务端配置
 
-* 打开 <tutorial-editor-open-file filePath="/home/shell/server/src/main/resources/application.properties">服务端的 application.properties</tutorial-editor-open-file> 文件：
+* 打开 <tutorial-editor-open-file filePath="/home/shell/go-server/conf/server.yml">服务端的 server.yml</tutorial-editor-open-file> 配置文件：
 
-* 修改 Web 访问端口<br>
-将 `server.port` 的值改为 `60000`（<tutorial-editor-select-line startLine="14" filePath="/home/shell/server/src/main/resources/application.properties" replaceText="server.port=60000">点我执行修改</tutorial-editor-select-line>）<br>
+* 修改注册中心类型<br>
+将 `protocol` 的值改为 `nacos`（<tutorial-editor-select-line startLine="14" filePath="/home/shell/go-server/conf/server.yml" replaceText="    protocol: 'nacos'">点我执行修改</tutorial-editor-select-line>）<br>
+
+* 修改注册访问端口<br>
 出于安全性和其他平台限制的考虑，目前外部只能使用6\[0-5\]000六个端口。
+将 `address` 的端口改为 `65000`（<tutorial-editor-select-line startLine="16" filePath="/home/shell/go-server/conf/server.yml" replaceText="    address: '127.0.0.1:65000'">点我执行修改</tutorial-editor-select-line>）<br>
 
-* 修改注册中心地址<br>
-将注册中心改为刚才启动的 Nacos 服务端的地址（<tutorial-editor-select-line startLine="9" filePath="/home/shell/server/src/main/resources/application.properties" replaceText="spring.cloud.nacos.discovery.server-addr=127.0.0.1:65000">点我执行修改</tutorial-editor-select-line>）
 
 ### 修改客户端配置
 
-* 打开 <tutorial-editor-open-file filePath="/home/shell/client/src/main/resources/application.properties">客户端的 application.properties</tutorial-editor-open-file> 文件：
+* 打开 <tutorial-editor-open-file filePath="/home/shell/go-client/conf/client.yml">客户端的 client.yml</tutorial-editor-open-file> 配置文件：
 
-* 修改 Web 访问端口<br>
-将 `server.port` 的值改为 `61000` (<tutorial-editor-select-line startLine="14" filePath="/home/shell/client/src/main/resources/application.properties" replaceText="server.port=61000">点我执行修改</tutorial-editor-select-line>)<br>
-要避免和服务端发生端口冲突，而60000已经被分配给了服务端，这里就用61000。
+* 修改注册中心类型<br>
+将 `protocol` 的值改为 `nacos`（<tutorial-editor-select-line startLine="20" filePath="/home/shell/go-client/conf/client.yml" replaceText="    protocol: 'nacos'">点我执行修改</tutorial-editor-select-line>）<br>
 
-* 修改注册中心地址<br>
-将注册中心改为刚才启动的 Nacos 服务端的地址（<tutorial-editor-select-line startLine="9" filePath="/home/shell/client/src/main/resources/application.properties" replaceText="spring.cloud.nacos.discovery.server-addr=127.0.0.1:65000">点我执行修改</tutorial-editor-select-line>）
+* 修改注册访问端口<br>
+出于安全性和其他平台限制的考虑，目前外部只能使用6\[0-5\]000六个端口。
+将 `address` 的端口改为 `65000`（<tutorial-editor-select-line startLine="22" filePath="/home/shell/go-client/conf/client.yml" replaceText="    address: '127.0.0.1:65000'">点我执行修改</tutorial-editor-select-line>）<br>
 
-* 修改OpenFeign方式调用的服务名称<br>
-打开文件 <tutorial-editor-open-file filePath="/home/shell/client/src/main/java/com/example/client/demos/nacosdiscoveryconsumer/EchoService.java">EchoService</tutorial-editor-open-file> <br>
-将其中的 `nacos-discovery-provider-sample` 替换为 `server` （
-<tutorial-editor-select-line startLine="23" filePath="/home/shell/client/src/main/java/com/example/client/demos/nacosdiscoveryconsumer/EchoService.java" replaceText='@FeignClient("server")'>点我执行修改</tutorial-editor-select-line>）
-
-
-* 修改RestTemplate方式调用的服务名称<br>
-打开文件 <tutorial-editor-open-file filePath="/home/shell/client/src/main/java/com/example/client/demos/nacosdiscoveryconsumer/RestTemplateController.java">RestTemplateController</tutorial-editor-open-file> <br>
-将其中的 `nacos-discovery-provider-sample` 替换为 `server` （
-<tutorial-editor-select-line startLine="43" startCharacterOffset="9" filePath="/home/shell/client/src/main/java/com/example/client/demos/nacosdiscoveryconsumer/RestTemplateController.java" replaceText='        return restTemplate.getForObject("http://server/echo/" + message, String.class);'>点我执行修改</tutorial-editor-select-line>）
-
-> 对 EchoService 和 RestTemplateController 修改，会在下一节做详细说明；
 
 ## 功能&代码说明
 
@@ -135,35 +111,6 @@ RestTemplate 是 spring 对所有 restful 服务调用的封装。<br>
 每个`服务端应用名`可以部署多份实例，每个实例都有自己的`服务端的地址`。
 
 
-## 编译打包
-本节，你需要使用 maven 的命令将程序代码编译打包为可执行的 jar 包
-
-### 编译服务端程序
-
-* 进入服务端目录
-```bash
-cd /home/shell/server
-```
-
-* 执行编译命令
-```bash
-mvn clean package -Dmaven.test.skip
-```
-> tips: 第一次编译，因为本地 maven 仓库缺少相关的类库，编译可能会花 1-2 分钟的时间
-
-### 编译客户端程序
-* 进入服务端目录
-```bash
-cd /home/shell/client
-```
-
-* 执行编译命令
-```bash
-mvn clean package -Dmaven.test.skip
-```
-
-> tips: 如果修改代码以后，需要重新执行编译命令
-
 ## 运行程序
 
 本节，你将使用 java 命令来运行上一步打包完成的 jar 文件
@@ -174,10 +121,11 @@ mvn clean package -Dmaven.test.skip
 
 2. 在新窗口中执行命令
 ```bash
-java -jar /home/shell/server/target/server-0.0.1-SNAPSHOT.jar
+cd go-server/cmd
+export CONF_PROVIDER_FILE_PATH=../conf/server.yml
+go run .
 ```
 看到下面的反馈则表示启动成功<br>
-![image](https://img.alicdn.com/tfs/TB1dAzYl5DsXe8jSZR0XXXK6FXa-620-192.png)
 
 
 ### 启动客户端
@@ -186,37 +134,8 @@ java -jar /home/shell/server/target/server-0.0.1-SNAPSHOT.jar
 
 2. 在新窗口中执行命令
 ```bash
-java -jar /home/shell/client/target/client-0.0.1-SNAPSHOT.jar
+cd go-client/cmd
+export CONF_CONSUMER_FILE_PATH=../conf/client.yml
+go run .
 ```
 看到下面的反馈则表示启动成功<br>
-![image](https://img.alicdn.com/tfs/TB1XVX8p_M11u4jSZPxXXahcXXa-608-195.png)
-
-
-## 访问应用程序
-
-本节，你将通过浏览器访问在上一节运行起来的服务端程序和客户端程序
-
-### 直接访问服务端程序
-由于服务端使用http协议提供服务，所以可以直接使用浏览器访问，我们先来验证服务端的功能。<br>
-通过<tutorial-web-preview port="60000" path="/echo/theonefx">链接</tutorial-web-preview> 访问地址 `http://{ip}:60000/echo/theonefx` <br>
-看到下面的内容代表服务端可以正常工作。
-![image](https://img.alicdn.com/tfs/TB1FJ.W0xz1gK0jSZSgXXavwpXa-617-89.png)<br>
-
-
-### 访问客户端程序
-由于客户端提供2种调用方式，这里也分别请求者两个入口，参照访问服务端的方式，选择 61000 端口访问客户端。
-
-* Openfeign<br>
-使用<tutorial-web-preview port="61000" path="/feign/echo/RestTemplate">链接</tutorial-web-preview>访问地址 `http://{ip}:61000/feign/echo/{message}` 其中 {message} 可以替换为你需要的信息，你可以看到下面的效果：<br>
-
-![image](https://img.alicdn.com/tfs/TB1in780EY1gK0jSZFCXXcwqXXa-664-78.png)
-* RestTemplate<br>
-使用<tutorial-web-preview port="61000" path="/call/echo/OpenFeign">链接</tutorial-web-preview>访问地址 `http://{ip}:61000/call/echo/{message}` 其中 {message} 可以替换为你需要的信息，你可以看到下面的效果：<br>
-
-![image](https://img.alicdn.com/tfs/TB19WR8p_M11u4jSZPxXXahcXXa-666-73.png)
-
-## 附录
-如果你觉得还不过瘾，想在自己的环境中学习和调试前面的代码，可以在这里获得：
-* <a target="_blank" href="https://start.aliyun.com/bootstrap.html/#!type=maven-project&language=java&architecture=none&platformVersion=2.3.4.RELEASE&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=provider&name=provider&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.provider&dependencies=sca-nacos-discovery,web&demos=nacosdiscoveryprovider">服务端程序</a>
-* <a target="_blank" href="https://start.aliyun.com/bootstrap.html/#!type=maven-project&language=java&architecture=none&platformVersion=2.3.4.RELEASE&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=client&name=client&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.client&dependencies=sca-nacos-discovery,web,cloud-feign&demos=nacosdiscoveryconsumer">客户端程序</a>
-
