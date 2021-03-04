@@ -54,7 +54,7 @@ cat /home/shell/nacos/logs/start.out
 
 * 修改注册访问端口<br>
 出于安全性和其他平台限制的考虑，目前外部只能使用6\[0-5\]000六个端口。
-将 `dubbo` 的端口改为 `65001`（<tutorial-editor-select-line startLine="22" startCharacterOffset="5"  filePath="/home/shell/dubbo-go/go-server/conf/server.yml" replaceText='port: 65001'>点我执行修改</tutorial-editor-select-line>）<br>
+将 `dubbo` 的端口改为 `65001`（<tutorial-editor-select-line startLine="36" startCharacterOffset="5"  filePath="/home/shell/dubbo-go/go-server/conf/server.yml" replaceText='port: 65001'>点我执行修改</tutorial-editor-select-line>）<br>
 
 ### 修改客户端配置
 
@@ -222,7 +222,7 @@ cd dubbo-go/go-client/cmd
 ```
 
 
-指定配置文件, 启动服务端
+指定配置文件, 启动客户端
 ```bash
 export CONF_CONSUMER_FILE_PATH=../conf/client.yml
 go run .
