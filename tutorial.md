@@ -52,6 +52,10 @@ cat /home/shell/nacos/logs/start.out
 出于安全性和其他平台限制的考虑，目前外部只能使用6\[0-5\]000六个端口。
 将 `address` 的端口改为 `65000`（<tutorial-editor-select-line startLine="16" startCharacterOffset="5" filePath="/home/shell/dubbo-go/go-server/conf/server.yml" replaceText='address: "127.0.0.1:65000"'>点我执行修改</tutorial-editor-select-line>）<br>
 
+* 修改注册访问端口<br>
+出于安全性和其他平台限制的考虑，目前外部只能使用6\[0-5\]000六个端口。
+将 `dubbo` 的端口改为 `65001`（<tutorial-editor-select-line startLine="22" startCharacterOffset="5"  filePath="/home/shell/dubbo-go/go-server/conf/server.yml" replaceText='port: 65001'>点我执行修改</tutorial-editor-select-line>）<br>
+
 ### 修改客户端配置
 
 * 打开 <tutorial-editor-open-file filePath="/home/shell/dubbo-go/go-client/conf/client.yml">客户端的 client.yml</tutorial-editor-open-file> 配置文件：
@@ -79,7 +83,7 @@ cat /home/shell/nacos/logs/start.out
 ### 修改服务端代码依赖
 * 打开 <tutorial-editor-open-file filePath="/home/shell/dubbo-go/go-server/cmd/server.go">服务端的 server.go</tutorial-editor-open-file> 源码：
 * 修改服务端nacos注册pkg依赖包
-将默认 `zookeeper` 的值改为 `nacos`（<tutorial-editor-select-line startLine="37" filePath="/home/shell/dubbo-go/go-server/cmd/server.go" replaceText='\t_ "github.com/apache/dubbo-go/registry/nacos"'>点我执行修改</tutorial-editor-select-line>）<br>
+将默认 `zookeeper` 的值改为 `nacos`（<tutorial-editor-select-line startLine="41" filePath="/home/shell/dubbo-go/go-server/cmd/server.go" replaceText='\t_ "github.com/apache/dubbo-go/registry/nacos"'>点我执行修改</tutorial-editor-select-line>）<br>
 
 
 
