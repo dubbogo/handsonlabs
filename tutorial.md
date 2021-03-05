@@ -202,8 +202,7 @@ cd dubbo-go/go-server/cmd
 
 指定配置文件, 启动服务端
 ```bash
-export CONF_PROVIDER_FILE_PATH=../conf/server.yml
-go run .
+export CONF_PROVIDER_FILE_PATH=../conf/server.yml && go run .
 ```
 
 看到下面的反馈则表示启动成功<br>
@@ -224,8 +223,7 @@ cd dubbo-go/go-client/cmd
 
 指定配置文件, 启动客户端
 ```bash
-export CONF_CONSUMER_FILE_PATH=../conf/client.yml
-go run .
+export CONF_CONSUMER_FILE_PATH=../conf/client.yml && go run .
 ```
 
 看到下面的反馈则表示调用成功<br>
