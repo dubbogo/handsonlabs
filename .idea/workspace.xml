@@ -20,8 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f138c40-2868-49a6-9fae-845748a475ce" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/case.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handson.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tutorial.md" beforeDir="false" afterPath="$PROJECT_DIR$/tutorial.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prepare.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/helloworld/prepare.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorial.md" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/helloworld/tutorial.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,10 +45,18 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tutorials/helloworld" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
