@@ -1,3 +1,9 @@
 {
-    "scenario_root" : "tutorials"
+    "directory": [
+        {
+            "folderName": "local-http",
+            "title": "dubbogo helloworld 简单调用案例"
+        }
+    ],
+    "scenario_root": "tutorials"
 }

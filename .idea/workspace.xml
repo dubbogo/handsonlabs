@@ -10,7 +10,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8f138c40-2868-49a6-9fae-845748a475ce" name="Default Changelist" comment="" />
+    <list default="true" id="8f138c40-2868-49a6-9fae-845748a475ce" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/handson.json" beforeDir="false" afterPath="$PROJECT_DIR$/handson.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
