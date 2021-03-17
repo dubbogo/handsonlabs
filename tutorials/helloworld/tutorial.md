@@ -52,7 +52,7 @@ cat /home/shell/nacos/logs/start.out
 出于安全性和其他平台限制的考虑，目前外部只能使用6\[0-5\]000六个端口。
 将 `address` 的端口改为 `65000`（<tutorial-editor-select-line startLine="16" startCharacterOffset="5" filePath="/home/shell/dubbo-go/go-server/conf/server.yml" replaceText='address: "127.0.0.1:65000"'>点我执行修改</tutorial-editor-select-line>）<br>
 
-* 修改注册访问端口<br>
+* 修改dubbogo服务监听端口<br>
 出于安全性和其他平台限制的考虑，目前外部只能使用6\[0-5\]000六个端口。
 将 `dubbo` 的端口改为 `60000`（<tutorial-editor-select-line startLine="36" startCharacterOffset="5"  filePath="/home/shell/dubbo-go/go-server/conf/server.yml" replaceText='port: 60000'>点我执行修改</tutorial-editor-select-line>）<br>
 
@@ -72,7 +72,7 @@ cat /home/shell/nacos/logs/start.out
 ## 修改代码依赖
 本节，你讲修改代码的注册引用依赖，导入nacos的注册pkg。<br>	
 
-由于需要使用nacos作为注册中心，需要import nacos依赖到代码中，方可使用\
+由于需要使用nacos作为注册中心，需要import nacos依赖到代码中，方可使用
 
 请认真按照本节的引导操作。在完成修改后，一定要记得保存哦。
 ### 修改客户端代码依赖
