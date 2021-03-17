@@ -1,11 +1,11 @@
-# 微服务开发入门教学
+# Dubbogo helloworld 简单调用案例
 
 ## 教程说明
 通过该教程，你将会：
 * 使用 dubbo-go 框架开启简单RPC服务
 * 并完成客户端和服务端之间的调用示例。
 
-案例学习时间预计5分钟左右。
+案例学习时间预计15分钟左右。
 
 ## 准备工作
 本节，你将通过 git 命令下载程序代码，并启动 Nacos 服务端
@@ -38,7 +38,7 @@ cat /home/shell/nacos/logs/start.out
 
 
 ## 修改配置
-本节，你讲修改代码的一些基本配置，让程序可以运行。<br>
+本节，你将修改代码的一些基本配置，让程序可以运行。<br>
 请认真按照本节的引导操作。在完成修改后，一定要记得保存哦。
 
 ### 修改服务端配置
@@ -70,7 +70,7 @@ cat /home/shell/nacos/logs/start.out
 
 
 ## 修改代码依赖
-本节，你讲修改代码的注册引用依赖，导入nacos的注册pkg。<br>	
+本节，你将修改代码的注册引用依赖，导入nacos的注册pkg。<br>	
 
 由于需要使用nacos作为注册中心，需要import nacos依赖到代码中，方可使用
 
@@ -202,7 +202,7 @@ cd dubbo-go/go-server/cmd
 
 指定配置文件, 启动服务端
 ```bash
-export CONF_PROVIDER_FILE_PATH=../conf/server.yml && go run .
+export CONF_PROVIDER_FILE_PATH=../conf/server.yml && export GOPROXY=https://goproxy.io,direct && go run .
 ```
 
 看到下面的反馈则表示启动成功<br>
@@ -223,7 +223,7 @@ cd dubbo-go/go-client/cmd
 
 指定配置文件, 启动客户端
 ```bash
-export CONF_CONSUMER_FILE_PATH=../conf/client.yml && go run .
+export CONF_CONSUMER_FILE_PATH=../conf/client.yml && export GOPROXY=https://goproxy.io,direct && go run .
 ```
 
 看到下面的反馈则表示调用成功<br>

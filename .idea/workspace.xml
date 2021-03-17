@@ -11,7 +11,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f138c40-2868-49a6-9fae-845748a475ce" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorials/helloworld/prepare.sh" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/helloworld/prepare.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tutorials/helloworld/tutorial.md" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/helloworld/tutorial.md" afterDir="false" />
     </list>
