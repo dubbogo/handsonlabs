@@ -7,6 +7,8 @@
 
 案例学习时间预计15分钟左右。
 
+点击右下角的"下一步"按钮继续。
+
 ## 准备工作
 本节，你将通过 git 命令下载程序代码，并启动 Nacos 服务端
 
@@ -194,8 +196,7 @@ func init() {
 1. 开启新 console 窗口：<br>
 <tutorial-terminal-open-tab name="服务端">点击我打开</tutorial-terminal-open-tab>
 
-2. 在新窗口中执行命令\
-进入cmd目录
+2. 在新窗口中执行命令，进入cmd目录
 ```bash
 cd dubbo-go/go-server/cmd
 ```
@@ -230,3 +231,7 @@ export CONF_CONSUMER_FILE_PATH=../conf/client.yml && export GOPROXY=https://gopr
 ```
 [2021-03-04/05:53:34 main.main: client.go: 64] response result: &{A001 Alex Stocks 18 2021-03-04 05:53:34.253 +0000 UTC}
 ```
+
+dubbo-go 初体验完成～
+
+给个star鼓励一下我们吧： [github.com/apache/dubbo-go](https://github.com/apache/dubbo-go)
