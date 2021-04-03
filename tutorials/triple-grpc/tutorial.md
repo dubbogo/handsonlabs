@@ -15,7 +15,7 @@
 
 请使用下面的命令获取客户端及服务端代码
 
-```shell
+```bash
 git clone https://github.com/cjphaha/handsonlabs-samples.git
 cd triple-grpc
 ```
@@ -24,7 +24,7 @@ cd triple-grpc
 
 通过如下命令启动zookeeper
 
-```shell
+```bash
 sh ~/prepare.sh
 ```
 
@@ -36,15 +36,10 @@ grpc通信需要通过在服务端和客户端之间定一个同一个protobuf�
 
 本案例中直接运行protobuf/protobuf.mk会自动安装protoc-gen-go以及protoc-gen-dubbo3拓展，生成pb.go相应的文件。
 
-该proto文件声明了rpc调用和返回数据的字段，以及针对protoc-gen-dubbo3的一些拓展字段。
+该proto文件声明了rpc调用和返回数据的字段，以及rpc方法。
 
 ```protobuf
 syntax = "proto3";
-
-option java_multiple_files = true;
-option java_package = "org.apache.dubbo";
-option java_outer_classname = "HelloWorldProto";
-option objc_class_prefix = "HLW";
 
 package protobuf;
 
@@ -80,7 +75,8 @@ type GreeterProvider struct {
 
 ```go
 func (g *GreeterProvider) Dubbo3Hello(ctx context.Context, in *pb.Dubbo3HelloRequest) (*pb.Dubbo3HelloReply, error) {
-	fmt.Println("######### get server request data :" + in.Req)
+	// 这里打印的是协议头的字段 
+    fmt.Println("######### get server request data :" + in.Req)
 	fmt.Println("get tri-req-id = ", ctx.Value("tri-req-id"))
 	return &pb.Dubbo3HelloReply{Rsp: "Hello " + in.Req}, nil
 }
@@ -98,11 +94,10 @@ func (g *GreeterProvider) Reference() string {
 
 
 
-由于使用了tripe协议，在main包中需要导入tripe以及dubbo3包
+由于使用了tripe协议，在main包中需要导入dubbo3包
 
 ```go
 import (
-	_ "github.com/dubbogo/triple/pkg/triple"
   _ "github.com/apache/dubbo-go/protocol/dubbo3"
 )
 ```
@@ -111,7 +106,7 @@ import (
 
 server端运行时将provider注册到dubbo，并监听信号
 
-```shell
+```bash
 func main() {
 	config.SetProviderService(pkg.NewGreeterProvider())
 	config.Load()
@@ -123,7 +118,7 @@ func main() {
 
 同客户端一样，客户端也需要有Reference()函数
 
-```shell
+```bash
 func (u *GrpcGreeterConsumer) Reference() string {
 	return "GrpcGreeterImpl"
 }
@@ -200,14 +195,14 @@ func test(){
 
 配置路径
 
-```shell
+```bash
 export CONF_PROVIDER_FILE_PATH=./conf/server.yml
 export APP_LOG_CONF_FILE=./conf/log.yml
 ```
 
 启动
 
-```shell
+```bash
 go run .
 ```
 
@@ -215,13 +210,13 @@ go run .
 
 配置路径
 
-```shell
+```bash
 export CONF_CONSUMER_FILE_PATH=./conf/client.yml
 export APP_LOG_CONF_FILE=./conf/log.yml
 ```
 
 启动
 
-```shell
+```bash
 go run .
 ```
