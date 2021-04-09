@@ -1,5 +1,5 @@
 #!/bin/sh
-wget https://mirrors.bfsu.edu.cn/apache/zookeeper/zookeeper-3.7.0/apache-zookeeper-3.7.0-bin.tar.gz
+wget  https://github.com/dubbogo/resources/tree/master/zookeeper-4unitest/contrib/fatjar/zookeeper-3.4.9-fatjar.jar
 
 tar -zxvf apache-zookeeper-3.7.0-bin.tar.gz
 

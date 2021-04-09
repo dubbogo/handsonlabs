@@ -4,12 +4,12 @@
 
 通过本教程，你将会
 
-* 使用dubbo-go3.0开启简单的RPC服务
+* 使用 dubbo-go3.0 开启简单的RPC服务
 * 完成客户端和服务端之间的调用实例
 
 ## 准备工作
 
-本节你将通过过git命令下载代码，并启动zookeeper注册中心
+本节你将通过过 git 命令下载代码，并启动 zookeeper 注册中心
 
 ### 获取客户端及服务端代码
 
@@ -20,9 +20,9 @@ git clone https://github.com/cjphaha/handsonlabs-samples.git
 cd triple-grpc
 ```
 
-### 启动zookeeper
+### 启动 zookeeper
 
-通过如下命令启动zookeeper
+通过如下命令启动 zookeeper
 
 ```bash
 sh ~/prepare.sh
@@ -32,11 +32,11 @@ sh ~/prepare.sh
 
 ### proto
 
-grpc通信需要通过在服务端和客户端之间定一个同一个protobuf文件，然后使用protoc工具打包出对应语言的pb.go文件。
+grpc 通信需要通过在服务端和客户端之间约定一个 protobuf 文件，然后使用 protoc 工具打包出对应语言的 pb 文件。
 
-本案例中直接运行protobuf/protobuf.mk会自动安装protoc-gen-go以及protoc-gen-dubbo3拓展，生成pb.go相应的文件。
+本案例中直接运行 protobuf/protobuf.mk 会自动安装 protoc-gen-go 以及 protoc-gen-dubbo3 拓展，生成 go 语言对应的 pb 的文件。
 
-该proto文件声明了rpc调用和返回数据的字段，以及rpc方法。
+该 proto 文件声明了 rpc 调用和返回数据的字段，以及 rpc 方法。
 
 ```protobuf
 syntax = "proto3";
@@ -59,7 +59,7 @@ message Dubbo3HelloReply {
 
 ### 服务端
 
-本案例中服务端提供了一个服务即
+本案例中的服务端提供了一个服务:
 
 ```go
 type GreeterProvider struct {
@@ -67,11 +67,11 @@ type GreeterProvider struct {
 }
 ```
 
-其中Dubbo3GreeterProviderBase是编码protobuf文件时生成的，无需改动。
+其中 Dubbo3GreeterProviderBase 是编码 protobuf 文件时生成的，无需改动。
 
 
 
-该服务只有一个方法Dubbo3Hello，该服务接收客户端的的消息，并在相应的消息体前加上hello。
+该服务只有一个方法 Dubbo3Hello，该服务接收客户端的的消息，并在相应的消息体前加上 hello。
 
 ```go
 func (g *GreeterProvider) Dubbo3Hello(ctx context.Context, in *pb.Dubbo3HelloRequest) (*pb.Dubbo3HelloReply, error) {
@@ -84,7 +84,7 @@ func (g *GreeterProvider) Dubbo3Hello(ctx context.Context, in *pb.Dubbo3HelloReq
 
 
 
-Reference返回的字符串，与配置中指定的service Key 相对应，框架会根据当前service Key的值，暴露指定Provider
+Reference 是 GreeterProvider 的一个方法，Reference 返回的字符串，与配置中指定的 service Key 相对应，框架会根据当前 service Key 的值，暴露指定 Provider
 
 ```go
 func (g *GreeterProvider) Reference() string {
@@ -94,7 +94,7 @@ func (g *GreeterProvider) Reference() string {
 
 
 
-由于使用了tripe协议，在main包中需要导入dubbo3包
+由于使用了 tripe 协议，在 main 包中需要导入 dubbo3 包
 
 ```go
 import (
@@ -104,7 +104,7 @@ import (
 
 
 
-server端运行时将provider注册到dubbo，并监听信号
+server 端运行时将 provider 注册到 dubbo-go，并监听信号
 
 ```bash
 func main() {
@@ -116,7 +116,7 @@ func main() {
 
 ### 客户端
 
-同客户端一样，客户端也需要有Reference()函数
+同客户端一样，客户端也需要有 Reference() 函数
 
 ```bash
 func (u *GrpcGreeterConsumer) Reference() string {
@@ -126,7 +126,7 @@ func (u *GrpcGreeterConsumer) Reference() string {
 
 
 
-在consummer结构体中需要声明调用的方法，该方法与服务端有一些不同
+在 consumer 结构体中需要声明调用的方法，该方法与服务端有一些不同
 
 ```go
 type GrpcGreeterConsumer struct {
@@ -136,7 +136,7 @@ type GrpcGreeterConsumer struct {
 
 
 
-dubbo3客户端
+dubbo3 客户端
 
 ```go
 func (u *GrpcGreeterConsumer) GetDubboStub(tc *dubbo3.TripleConn) pb.Dubbo3GreeterClient {
@@ -146,7 +146,7 @@ func (u *GrpcGreeterConsumer) GetDubboStub(tc *dubbo3.TripleConn) pb.Dubbo3Greet
 
 
 
-main包中导入dubbo3
+main 包中导入 dubbo3
 
 ```go
 import (
@@ -156,7 +156,7 @@ import (
 
 
 
-将consumer注册到dubbo，然后倒入配置，监听信号
+将 consumer 注册到 dubbo，然后倒入配置，监听信号
 
 ```go
 var GrpcGreeterConsumer = new(pkg.GrpcGreeterConsumer)
@@ -170,7 +170,7 @@ func main( )  {
 
 
 
-发起grpc调用
+发起 grpc 调用
 
 ```go
 func test(){
@@ -189,15 +189,21 @@ func test(){
 
 ## 运行程序
 
-本节，你将使用命令来启动服务端和客户端完成一次基于dubbo3.0的grpc调用
+本节，你将使用命令来启动服务端和客户端完成一次基于 dubbo3.0 的 grpc 调用
 
 ### 启动服务端
+
+进入cmd目录
+
+```bash
+cd server/cmd
+```
 
 配置路径
 
 ```bash
-export CONF_PROVIDER_FILE_PATH=./conf/server.yml
-export APP_LOG_CONF_FILE=./conf/log.yml
+export CONF_PROVIDER_FILE_PATH=../conf/server.yml
+export APP_LOG_CONF_FILE=../conf/log.yml
 ```
 
 启动
@@ -208,11 +214,17 @@ go run .
 
 ### 启动客户端
 
+进入cmd目录
+
+```bash
+cd client/cmd
+```
+
 配置路径
 
 ```bash
-export CONF_CONSUMER_FILE_PATH=./conf/client.yml
-export APP_LOG_CONF_FILE=./conf/log.yml
+export CONF_CONSUMER_FILE_PATH=../conf/client.yml
+export APP_LOG_CONF_FILE=../conf/log.yml
 ```
 
 启动
