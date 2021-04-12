@@ -3,7 +3,11 @@
         {
             "folderName": "helloworld",
             "title": "dubbogo helloworld 简单调用案例"
+        }, {
+            "folderName": "triple-grpc",
+            "title": "dubbogo3 基于triple协议的RPC调用"
         }
+
     ],
     "scenario_root": "tutorials"
 }
