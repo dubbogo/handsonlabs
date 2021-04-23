@@ -146,7 +146,7 @@ func (u *GrpcGreeterConsumer) GetDubboStub(tc *dubbo3.TripleConn) pb.Dubbo3Greet
 
 
 
-main 包中导入 dubbo
+main 包中导入 dubbo3
 
 ```go
 import (
