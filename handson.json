@@ -6,6 +6,9 @@
         }, {
             "folderName": "triple-grpc",
             "title": "dubbogo3 基于triple协议的RPC调用"
+        },{
+            "folderName": "config-api",
+            "title": "dubbogo config-api 应用案例"
         }
 
     ],
