@@ -1,16 +1,7 @@
 #!/bin/sh
-wget  https://github.com/dubbogo/resources/tree/master/zookeeper-4unitest/contrib/fatjar/zookeeper-3.4.9-fatjar.jar
 
-tar -zxvf apache-zookeeper-3.7.0-bin.tar.gz
+wget -O /home/shell/nacos-server-1.3.2.tar.gz https://handson.oss-cn-shanghai.aliyuncs.com/nacos-server-1.3.2.tar.gz
 
-cd apache-zookeeper-3.7.0-bin
+tar -xzvf /home/shell/nacos-server-1.3.2.tar.gz -C /home/shell/
 
-cd conf/
-
-cp zoo_sample.cfg zoo.cfg
-
-cd ..
-
-cd bin/
-
-sh zkServer.sh start
+sh /home/shell/nacos/bin/startup.sh -m standalone
