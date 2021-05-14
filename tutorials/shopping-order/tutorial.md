@@ -1,4 +1,4 @@
-# Dubbo-go 在电商交易背景下分布式事务及AMP监控示例
+# Dubbo-go 在电商交易背景下分布式事务
 
 给个star鼓励一下我们吧： [github.com/apache/dubbo-go](https://github.com/apache/dubbo-go)
 
