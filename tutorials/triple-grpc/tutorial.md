@@ -20,9 +20,9 @@ git clone https://github.com/cjphaha/handsonlabs-samples.git
 cd triple-grpc
 ```
 
-### 启动 zookeeper
+### 启动 nacos
 
-通过如下命令启动 zookeeper
+通过如下命令启动 nacos
 
 ```bash
 sh ~/prepare.sh
@@ -153,7 +153,7 @@ import (
   _ "github.com/apache/dubbo-go/protocol/dubbo3"
 )
 ```
-
+(由于dubbo3目前还没有正式发版，因此需要在 go.mod 中将 require 到的 dubbo-go 包替换成手动下载的包，这部分需要读者手动完成)
 
 
 将 consumer 注册到 dubbo，然后倒入配置，监听信号
