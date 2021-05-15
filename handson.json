@@ -9,6 +9,9 @@
         },{
             "folderName": "config-api",
             "title": "dubbogo config-api 应用案例"
+        },{
+            "folderName": "shopping-order",
+            "title": "Dubbogo 与 Seata-golang 分布式事务场景案例"
         }
 
     ],
