@@ -3,8 +3,8 @@
 ## 教程说明
 
 通过该教程，你将会：
-* 使用 dubbo-go 构建一个简单的服务端应用
-* 了解vue框架
+* 使用 dubbo-go 构建一个简单的服务端
+* 了解 vue.js 框架的使用
 
 案例学习时间预计15分钟左右。
 
@@ -16,13 +16,12 @@
 
 请使用下面的命令获取客户端及服务端程序代码
 ```bash
-git clone https://github.com/cjphaha/handsonlabs-sample.git
-cd handsonlabs-sample/game
+git clone https://github.com/cjphaha/handsonlabs-samples.git && handsonlabs-sample/game
 ```
 
 ### 启动 Nacos 服务端
 
-通过如下命令启动nacos服务端
+通过如下命令启动 nacos 服务端
 ```bash
 sh ~/prepare.sh
 ```
@@ -34,7 +33,7 @@ sh ~/prepare.sh
 cat /home/shell/nacos/logs/start.out
 ```
 
-待出现``如下输出时，代表启动完成（如果未完成启动，可以重复执行上一条命令）:
+待出现如下输出时，代表启动完成（如果未完成启动，可以重复执行上一条命令）:
 > INFO Tomcat started on port(s): 65000 (http) with context path '/nacos'<br>
 > ......<br>
 > INFO Nacos started successfully in stand alone mode. use embedded storage
@@ -51,20 +50,20 @@ cat /home/shell/nacos/logs/start.out
 - 两个服务会互相 RPC 通讯 (都同时注册 **provider** 和 **consumer**)
 - **gate** 额外启动了 http 服务 (端口 **8000**), 用于手工触发  **gate** RPC 调用 **game**
 
-> 每次 **gate** RPC调用(**Message**) **game** 后, **game** 会同步RPC调用(Send) **gate** 推送相同消息
+> 每次 **gate** RPC调用 (**Message**) **game** 后, **game** 会同步RPC调用(Send) **gate** 推送相同消息
 
 #### 概要
 
 目录说明
 
 ```bash
-├── go-server-game    # game模块
+├── go-server-game    # game 模块
 │   ├── cmd           # 主入口
 │   ├── conf          # 配置文件
 │   ├── docker        # docker-compose文件
 │   ├── pkg           # provider和consumer
 │   └── tests
-├── go-server-gate    # gate模块
+├── go-server-gate    # gate 模块
 │   ├── cmd           # 主入口
 │   ├── conf          # 配置文件
 │   ├── docker        # docker-compose文件
@@ -77,23 +76,23 @@ cat /home/shell/nacos/logs/start.out
     └── pojo
 ```
 
-发起http服务的流程
+发起 http 服务的流程
 
 <img src="http://cdn.cjpa.top/cdnimages/image-20210423212453935.png" alt="image-20210423212453935" style="zoom:50%;" />
 
 
 
-从consumer和provider角度来看，发起一次调用的流程是这样的
+从 consumer 和 provider 角度来看，发起一次调用的流程是这样的
 
 <img src="http://cdn.cjpa.top/cdnimages/image-20210424094134541.png" alt="image-20210424094134541" style="zoom: 33%;" />
 
-game提供了basketball服务端，gate提供了http服务端。
+game 提供了 basketball 服务端，gate提供了http服务端。
 
-#### game模块
+#### game 模块
 
-##### server端
+##### server 端
 
-server 端提供三个服务，Login、Score 及 Rank，代码如下，具体的实现可以在 'game/go-server-game/pkg/provider.go' 中看到
+server 端提供三个服务，Login、Score 及 Rank，代码如下，具体的实现可以在 game/go-server-game/pkg/provider.go 中看到
 
 ```go
 type BasketballService struct{}
@@ -139,7 +138,7 @@ services:
 
 ##### consumer端
 
-basketball 部分的 consumer 主要用来被 gate 调用，因此主要代码放在了 'game/pkg/consumer/gate/basketball.go' 中，这部分作为公共部分，consumer 代码如下
+basketball 部分的 consumer 主要用来被 gate 调用，因此主要代码放在了  game/pkg/consumer/gate/basketball.go中，这部分作为公共部分，consumer 代码如下
 
 ```go
 type BasketballService struct {
@@ -151,7 +150,7 @@ func (p *BasketballService) Reference() string {
 }
 ```
 
-在basketball中，只需要实例化一个consumer变量即可
+在 basketball 中，只需要实例化一个 consumer 变量即可
 
 ```go
 var gateBasketball = new(gate.BasketballService)
@@ -177,11 +176,11 @@ references:
         retries: 0
 ```
 
-由于 game 的 consumer 需要调用 gate 的provider，因此 Reference 方法返回的字符串为 gateConsumer.basketballService ，在配置文件中 gateConsumer.basketballService 和 'game/pkg/consumer/gate/basketball.go' 中Reference 方法声明的一致，intreface 的值也要和 gate 的 provider 设置的一致。
+由于 game 的 consumer 需要调用 gate 的 provider，因此 Reference 方法返回的字符串为 gateConsumer.basketballService ，在配置文件中 gateConsumer.basketballService 和 game/pkg/consumer/gate/basketball.go 中Reference 方法声明的一致，intreface 的值也要和 gate 的 provider 设置的一致。
 
-#### gate模块
+#### gate 模块
 
-##### server端
+##### server 端
 
 ```go
 type BasketballService struct{}
@@ -195,7 +194,7 @@ func (p *BasketballService) Reference() string {
 }
 ```
 
-注册到dubbo
+注册到 dubbo
 
 ```go
 config.SetProviderService(new(BasketballService))
@@ -220,9 +219,9 @@ services:
         retries: 0
 ```
 
-##### consumer端
+##### consumer 端
 
-gate 中的 consumer 端比较特殊，由于 gate的consumer 需要调用 game 中的 service，所以在gaet中，consumer 直接实例化一个game的service，其方法便直接使用实例化的对象 GameBasketball 调用，这样就实现了一个网关的功能。
+gate 中的 consumer 端比较特殊，由于 gate的consumer 需要调用 game 中的 service，所以在 gate 中，consumer 直接实例化一个 game 的 service，其方法便直接使用实例化的对象 GameBasketball 调用，这样就实现了一个网关的功能。
 
 ```go
 var GameBasketball = new(game.BasketballService)
@@ -242,7 +241,7 @@ func Rank (ctx context.Context, uid string) (*pojo.Result, error) {
 
 代码中的 GameBasketball.Message、GameBasketball.Online、GameBasketball.Offline 调用的方法都是 game 的方法
 
-注册到dubbo
+注册到 dubbo
 
 ```go
 config.SetProviderService(new(pkg.BasketballService))
@@ -250,7 +249,7 @@ config.SetProviderService(new(pkg.BasketballService))
 
 ##### 配置文件
 
-配置文件中的 inerface 也要和 game 的 provider 保持一致，不然收到 http 请求之后无法调用 gate
+配置文件中的 interface 也要和 game 的 provider 保持一致，不然收到 http 请求之后无法调用 gate
 
 ```yml
 references:
@@ -270,7 +269,7 @@ references:
 
 ### 前端
 
-前端使用 vue.js 框架 + JQuery.js框架 + element-ui 样式库，其中 vue.js 框架承担了大多数功能，http 服务借助jQuery 框架提供的 ajax，弹窗使用了element-ui 的 dialog 组件
+前端使用 vue.js 框架 + JQuery.js 框架 + element-ui 样式库，其中 vue.js 框架承担了大多数功能，http 服务借助jQuery 框架提供的 ajax，弹窗使用了element-ui 的 dialog 组件
 
 #### 项目结构
 
@@ -301,7 +300,7 @@ references:
 
 #### 接口
 
-前端向后后端发送GET/POST请求使用的是ajax，如下是登录接口的代码
+前端向后后端发送 GET/POST 请求使用的是 ajax，如下是登录接口的代码
 
 ```javascript
 var baseURL = 'http://127.0.0.1:8089/'
@@ -392,7 +391,7 @@ move: function () {
 
 ## 运行程序
 ### 启动服务端
-#### 启动game
+#### 启动 game
 1. 开启新 console 窗口：<br>
 <tutorial-terminal-open-tab name="服务端">点击我打开</tutorial-terminal-open-tab>
 
@@ -410,11 +409,11 @@ export CONF_PROVIDER_FILE_PATH=../conf/server.yml && export GOPROXY=https://gopr
 ```bash
 nacos/registry.go:200   update begin, service event: ServiceEvent{Action{add}, Path{dubbo...
 ```
-#### 启动gate
+#### 启动 gate
 1. 开启新 console 窗口：<br>
 <tutorial-terminal-open-tab name="服务端">点击我打开</tutorial-terminal-open-tab>
 
-2. 在新窗口中执行命令，进入cmd目录
+2. 在新窗口中执行命令，进入 cmd 目录
 ```bash
 cd handsonlabs-samples/game/go-server-gate/cmd
 ```
