@@ -16,7 +16,7 @@
 
 请使用下面的命令获取客户端及服务端程序代码
 ```bash
-git clone https://github.com/cjphaha/handsonlabs-samples.git && handsonlabs-sample/game
+git clone https://github.com/cjphaha/handsonlabs-samples.git
 ```
 
 ### 启动 Nacos 服务端
@@ -28,7 +28,7 @@ sh ~/prepare.sh
 
 ----
 
-通过如下命令观察nacos启动日志:
+通过如下命令观察 nacos 启动日志:
 ```bash
 cat /home/shell/nacos/logs/start.out
 ```
@@ -38,7 +38,7 @@ cat /home/shell/nacos/logs/start.out
 > ......<br>
 > INFO Nacos started successfully in stand alone mode. use embedded storage
 
-## 功能&代码说明
+## 功能 & 代码说明
 
 本节主要是对内容的说明和介绍，没有对项目的操作内容；
 
@@ -60,17 +60,17 @@ cat /home/shell/nacos/logs/start.out
 ├── go-server-game    # game 模块
 │   ├── cmd           # 主入口
 │   ├── conf          # 配置文件
-│   ├── docker        # docker-compose文件
-│   ├── pkg           # provider和consumer
+│   ├── docker        # docker-compose 文件
+│   ├── pkg           # provider 和 consumer
 │   └── tests
 ├── go-server-gate    # gate 模块
 │   ├── cmd           # 主入口
 │   ├── conf          # 配置文件
 │   ├── docker        # docker-compose文件
-│   ├── pkg           # provider和consumer
+│   ├── pkg           # provider 和 consumer
 │   └── tests
 └── pkg
-    ├── consumer      # 公共consumer
+    ├── consumer      # 公共 consumer
     │   ├── game
     │   └── gate
     └── pojo
@@ -200,6 +200,24 @@ func (p *BasketballService) Reference() string {
 config.SetProviderService(new(BasketballService))
 ```
 
+##### http 服务
+
+gate 模块提供了 http 服务，默认监听 60000 端口，用来部署前端项目及接收前端的 http 请求，这部分的实现如下所示
+
+```go
+func startHttp() {
+  	// 登陆
+    http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {})
+  	// 得分
+    http.HandleFunc("/score", func(w http.ResponseWriter, r *http.Request) {})
+  	// 排名
+    http.HandleFunc("/rank", func(w http.ResponseWriter, r *http.Request) {})
+  	// 文件服务
+    http.Handle("/", http.FileServer(http.Dir("../../website/")))
+    _ = http.ListenAndServe("0.0.0.0:60000", nil)
+}
+```
+
 ##### 配置文件
 
 gateProvider.basketballService 和 Reference 中的一致，这里的 interface 一定要和 game 的 client.yml 文件中设置的保持一致，不然 game 无法向 gate 发送数据
@@ -303,7 +321,7 @@ references:
 前端向后后端发送 GET/POST 请求使用的是 ajax，如下是登录接口的代码
 
 ```javascript
-var baseURL = 'http://127.0.0.1:8089/'
+var baseURL = window.document.location.href
 
 function login(data) {
     return new Promise(function(resolve, reject) {
@@ -327,7 +345,13 @@ function login(data) {
 }
 ```
 
-#### 球门自动移动
+由于外部设备想要访问知行实验室需要通过知行实验室制定的代理地址，因此前端需要在页面加载的时候获取当前服务的 url，这部分的代码如下所示
+
+```javascript
+var baseURL = window.document.location.href
+```
+
+#### 球门移动逻辑
 
 ```javascript
 move: function () {
@@ -384,10 +408,8 @@ move: function () {
                     elem[0].style.bottom = tempHeight + ''
                 }
             }
-        },
+        }
 ```
-
-
 
 ## 运行程序
 ### 启动服务端
@@ -395,14 +417,17 @@ move: function () {
 1. 开启新 console 窗口：<br>
 <tutorial-terminal-open-tab name="服务端">点击我打开</tutorial-terminal-open-tab>
 
-2. 在新窗口中执行命令，进入cmd目录
+2. 在新窗口中执行命令，进入 cmd 目录
 ```bash
 cd handsonlabs-samples/game/go-server-game/cmd
 ```
 
 指定配置文件, 启动服务端
 ```bash
-export CONF_PROVIDER_FILE_PATH=../conf/server.yml && export GOPROXY=https://goproxy.io,direct && go run .
+export CONF_PROVIDER_FILE_PATH=../conf/server.yml && 
+export CONF_CONSUMER_FILE_PATH=../conf/client.yml && 
+export GOPROXY=https://goproxy.io,direct && 
+go run .
 ```
 
 看到下面的反馈则表示启动成功<br>
@@ -420,7 +445,10 @@ cd handsonlabs-samples/game/go-server-gate/cmd
 
 指定配置文件, 启动服务端
 ```bash
-export CONF_PROVIDER_FILE_PATH=../conf/server.yml && export GOPROXY=https://goproxy.io,direct && go run .
+export CONF_PROVIDER_FILE_PATH=../conf/server.yml && 
+export CONF_CONSUMER_FILE_PATH=../conf/client.yml && 
+export GOPROXY=https://goproxy.io,direct && 
+go run .
 ```
 
 看到下面的反馈则表示启动成功<br>
@@ -430,16 +458,12 @@ nacos/registry.go:200   update begin, service event: ServiceEvent{Action{add}, P
 
 ### 启动前端
 
-1. 开启新 console 窗口：<br>
-
-<tutorial-terminal-open-tab name="客户端">点击我打开</tutorial-terminal-open-tab>
-
-1. 在新窗口中执行命令
-```bash
-cd handsonlabs-samples/game/website && python -m http.server 60000
-```
-
-执行实验室提供了部分预览端口，在右上角点击即可访问
+由于 gate 端已经对前端进行了部署，访问 60000 端口便会收到 gate 端从 website 文件夹中读取到的 HTML、JavaScript 及 CSS 内容，知行实验室提供了部分预览端口，如果需要外部访问在右上角点击 60000 即可访问
 
 ![image-20210529201752331](http://cdn.cjpa.top/image-20210529201752331.png)
 
+
+
+打开后可以看到如下的界面
+
+![image-20210530200815948](http://cdn.cjpa.top/cdnimages/image-20210530200815948.png)
