@@ -12,6 +12,9 @@
         },{
             "folderName": "shopping-order",
             "title": "Dubbogo 与 Seata-golang 分布式事务场景案例"
+        },{
+            "folderName": "game",
+            "title": "dubbogo game 足球游戏案例"
         }
 
     ],
